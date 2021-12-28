@@ -26,7 +26,7 @@ class Encrypt implements ActionListener {
                 srandom.nextBytes(salt);
                 SecretKeyFactory factory =
                         SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-                KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 10000, 128);
+                KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
                 SecretKey tmp = factory.generateSecret(spec);
                 SecretKeySpec skey = new SecretKeySpec(tmp.getEncoded(), "AES");
                 byte[] iv = new byte[128/8];
@@ -84,7 +84,7 @@ class Decrypt implements ActionListener{
                 in.read(iv);
                 SecretKeyFactory factory =
                         SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-                KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 10000, 128);
+                KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
                 SecretKey tmp = factory.generateSecret(spec);
                 SecretKeySpec skey = new SecretKeySpec(tmp.getEncoded(), "AES");
                 Cipher ci = Cipher.getInstance("AES/CBC/PKCS5Padding");
